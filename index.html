@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineSwift - Premium Streaming</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #000000;
+      --accent: #e50914;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --light: #f5f5f5;
+      --gray: #8c8c8c;
+      --dark-gray: #1a1a1a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    header {
+      padding: 25px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      transition: all 0.3s;
+    }
+    
+    header.scrolled {
+      background-color: var(--primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      padding: 15px 50px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--light);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    
+    .logo span {
+      color: var(--accent);
+    }
+    
+    .logo i {
+      margin-right: 12px;
+      color: var(--accent);
+    }
+    
+    nav a {
+      color: var(--light);
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    nav a:hover {
+      color: var(--accent);
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent);
+      transition: width 0.3s;
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin-top: 100px;
+    }
+    
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+    
+    .hero h1 span {
+      color: var(--accent);
+    }
+    
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      font-weight: 300;
+      color: var(--gray);
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      padding: 16px 32px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+    
+    .primary-btn {
+      background: var(--accent);
+      color: white;
+      border: 2px solid var(--accent);
+    }
+    
+    .secondary-btn {
+      background: transparent;
+      color: var(--light);
+      border: 2px solid var(--light);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .primary-btn:hover {
+      background: #c40812;
+      border-color: #c40812;
+    }
+    
+    .secondary-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Featured Section */
+    .featured {
+      padding: 100px 50px;
+      background-color: var(--darker);
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--light);
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent);
+    }
+    
+    .view-all {
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .view-all:hover {
+      color: var(--accent);
+    }
+    
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+    }
+    
+    .movie-card {
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
+      background-color: var(--dark-gray);
+    }
+    
+    .movie-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+    
+    .movie-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .movie-info {
+      padding: 20px;
+    }
+    
+    .movie-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .movie-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .rating {
+      color: gold;
+    }
+    
+    /* Categories Section */
+    .categories {
+      padding: 100px 50px;
+      background-color: var(--dark);
+    }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+    }
+    
+    .category-card {
+      background-color: var(--dark-gray);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .category-card:hover {
+      background-color: var(--accent);
+      transform: scale(1.05);
+    }
+    
+    .category-card i {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: var(--light);
+    }
+    
+    .category-name {
+      font-weight: 500;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--primary);
+      padding: 60px 50px 30px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-column h3 {
+      color: var(--light);
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-column a:hover {
+      color: var(--accent);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      color: var(--light);
+      background-color: var(--dark-gray);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--dark-gray);
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 20px;
+        flex-direction: column;
+      }
+      
+      .logo {
+        margin-bottom: 20px;
+      }
+      
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      nav a {
+        margin: 0 15px 10px;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .featured, .categories {
+        padding: 60px 20px;
+      }
+      
+      .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <a href="index.html" class="logo"><i class="fas fa-film"></i>Cine<span>Swift</span></a>
+    <nav>
+      <a href="browse.html">Browse</a>
+      <a href="trending.html">Trending</a>
+      <a href="categories.html">Categories</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Unlimited <span>Movies</span>, TV Shows & More</h1>
+      <p>Stream thousands of movies and TV shows in stunning HD quality. Anytime, anywhere.</p>
+      <div class="cta-buttons">
+        <a href="register.html" class="cta-button primary-btn">Get Started</a>
+        <a href="browse.html" class="cta-button secondary-btn">Browse Collection</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured">
+    <div class="section-header">
+      <h2 class="section-title">Featured Movies</h2>
+      <a href="browse.html" class="view-all">View All</a>
+    </div>
+    <div class="movie-grid">
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" alt="Movie Poster">
+        <div class="movie-info">
+          <h3 class="movie-title">Dune: Part Two</h3>
+          <div class="movie-meta">
+            <span>2024</span>
+            <span class="rating">★ 8.8</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg" alt="Movie Poster">
+        <div class="movie-info">
+          <h3 class="movie-title">Oppenheimer</h3>
+          <div class="movie-meta">
+            <span>2023</span>
+            <span class="rating">★ 8.4</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg" alt="Movie Poster">
+        <div class="movie-info">
+          <h3 class="movie-title">John Wick 4</h3>
+          <div class="movie-meta">
+            <span>2023</span>
+            <span class="rating">★ 7.7</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg" alt="Movie Poster">
+        <div class="movie-info">
+          <h3 class="movie-title">The Batman</h3>
+          <div class="movie-meta">
+            <span>2022</span>
+            <span class="rating">★ 7.8</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" alt="Movie Poster">
+        <div class="movie-info">
+          <h3 class="movie-title">Spider-Verse</h3>
+          <div class="movie-meta">
+            <span>2023</span>
+            <span class="rating">★ 8.6</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories">
+    <h2 class="section-title">Browse Categories</h2>
+    <div class="category-grid">
+      <div class="category-card">
+        <i class="fas fa-heart"></i>
+        <div class="category-name">Romance</div>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-laugh"></i>
+        <div class="category-name">Comedy</div>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-ghost"></i>
+        <div class="category-name">Horror</div>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-space-shuttle"></i>
+        <div class="category-name">Sci-Fi</div>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-mask"></i>
+        <div class="category-name">Action</div>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-question"></i>
+        <div class="category-name">Mystery</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>CineSwift</h3>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Account</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2023 CineSwift. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>

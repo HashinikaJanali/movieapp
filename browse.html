@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Movies | CineSwift</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #000000;
+      --accent: #e50914;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --light: #f5f5f5;
+      --gray: #8c8c8c;
+      --dark-gray: #1a1a1a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    header {
+      padding: 25px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--light);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    
+    .logo span {
+      color: var(--accent);
+    }
+    
+    .logo i {
+      margin-right: 12px;
+      color: var(--accent);
+    }
+    
+    nav a {
+      color: var(--light);
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    nav a:hover {
+      color: var(--accent);
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent);
+      transition: width 0.3s;
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    /* Main Content */
+    .main-container {
+      padding: 50px;
+      min-height: calc(100vh - 160px);
+    }
+    
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--light);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .page-title::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent);
+    }
+    
+    .search-container {
+      position: relative;
+      width: 300px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 20px 12px 45px;
+      background-color: var(--dark-gray);
+      border: none;
+      border-radius: 30px;
+      color: var(--light);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-group {
+      position: relative;
+    }
+    
+    .filter-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .filter-select {
+      padding: 12px 35px 12px 15px;
+      background-color: var(--dark-gray);
+      color: var(--light);
+      border: none;
+      border-radius: 5px;
+      appearance: none;
+      min-width: 180px;
+      cursor: pointer;
+    }
+    
+    .filter-select:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    
+    .filter-arrow {
+      position: absolute;
+      right: 10px;
+      top: 38px;
+      color: var(--gray);
+      pointer-events: none;
+    }
+    
+    /* Movie Grid */
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+    }
+    
+    .movie-card {
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
+      background-color: var(--dark-gray);
+    }
+    
+    .movie-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+    
+    .movie-poster {
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .movie-info {
+      padding: 20px;
+    }
+    
+    .movie-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      color: var(--light);
+      text-decoration: none;
+      display: block;
+    }
+    
+    .movie-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .rating {
+      color: gold;
+    }
+    
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+      gap: 10px;
+    }
+    
+    .page-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--dark-gray);
+      color: var(--light);
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .page-link:hover, .page-link.active {
+      background-color: var(--accent);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--primary);
+      padding: 60px 50px 30px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-column h3 {
+      color: var(--light);
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-column a:hover {
+      color: var(--accent);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      color: var(--light);
+      background-color: var(--dark-gray);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--dark-gray);
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .main-container {
+        padding: 40px 30px;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+      
+      .search-container {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 20px;
+        flex-direction: column;
+      }
+      
+      .logo {
+        margin-bottom: 20px;
+      }
+      
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      nav a {
+        margin: 0 15px 10px;
+      }
+      
+      .main-container {
+        padding: 30px 20px;
+      }
+      
+      .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo"><i class="fas fa-film"></i>Cine<span>Swift</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="browse.html" class="active">Browse</a>
+      <a href="categories.html">Categories</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </nav>
+  </header>
+
+  <div class="main-container">
+    <div class="page-header">
+      <h1 class="page-title">Browse Movies</h1>
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Search movies..." id="searchInput">
+      </div>
+    </div>
+    
+    <div class="filters">
+      <div class="filter-group">
+        <label class="filter-label">Genre</label>
+        <select class="filter-select" id="genreFilter">
+          <option value="all">All Genres</option>
+          <option value="action">Action</option>
+          <option value="comedy">Comedy</option>
+          <option value="drama">Drama</option>
+          <option value="sci-fi">Sci-Fi</option>
+          <option value="horror">Horror</option>
+        </select>
+        <i class="fas fa-chevron-down filter-arrow"></i>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Year</label>
+        <select class="filter-select" id="yearFilter">
+          <option value="all">All Years</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+        </select>
+        <i class="fas fa-chevron-down filter-arrow"></i>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Rating</label>
+        <select class="filter-select" id="ratingFilter">
+          <option value="0">All Ratings</option>
+          <option value="9">9+</option>
+          <option value="8">8+</option>
+          <option value="7">7+</option>
+          <option value="6">6+</option>
+        </select>
+        <i class="fas fa-chevron-down filter-arrow"></i>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Sort By</label>
+        <select class="filter-select" id="sortFilter">
+          <option value="popularity">Popularity</option>
+          <option value="newest">Newest</option>
+          <option value="highest">Highest Rated</option>
+          <option value="alphabetical">A-Z</option>
+        </select>
+        <i class="fas fa-chevron-down filter-arrow"></i>
+      </div>
+    </div>
+    
+    <!-- Movie Grid will be populated by JavaScript -->
+    <div class="movie-grid" id="movieGrid"></div>
+    
+    <div class="pagination" id="pagination">
+      <a href="#" class="page-link" id="prevPage"><i class="fas fa-chevron-left"></i></a>
+      <a href="#" class="page-link active" data-page="1">1</a>
+      <a href="#" class="page-link" data-page="2">2</a>
+      <a href="#" class="page-link" data-page="3">3</a>
+      <a href="#" class="page-link" data-page="4">4</a>
+      <a href="#" class="page-link" id="nextPage"><i class="fas fa-chevron-right"></i></a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>CineSwift</h3>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Account</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2024 CineSwift. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Movie data (current as of 2024)
+    const movies = [
+      // Page 1
+      { id: 1, title: "Dune: Part Two", year: "2024", rating: 8.8, genre: "sci-fi", poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" },
+      { id: 2, title: "Oppenheimer", year: "2023", rating: 8.4, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg" },
+      { id: 3, title: "John Wick: Chapter 4", year: "2023", rating: 7.7, genre: "action", poster: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg" },
+      { id: 4, title: "The Batman", year: "2022", rating: 7.8, genre: "action", poster: "https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg" },
+      { id: 5, title: "Spider-Man: Across the Spider-Verse", year: "2023", rating: 8.6, genre: "action", poster: "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" },
+      { id: 6, title: "The Dark Knight", year: "2008", rating: 9.0, genre: "action", poster: "https://image.tmdb.org/t/p/w500/iiXliCeykkzmJ0Eg9RYJ7F2CWSz.jpg" },
+      { id: 7, title: "Avengers: Endgame", year: "2019", rating: 8.4, genre: "action", poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg" },
+      { id: 8, title: "Interstellar", year: "2014", rating: 8.6, genre: "sci-fi", poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" },
+      
+      // Page 2
+      { id: 9, title: "The Godfather", year: "1972", rating: 9.2, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" },
+      { id: 10, title: "The Shawshank Redemption", year: "1994", rating: 9.3, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" },
+      { id: 11, title: "Schindler's List", year: "1993", rating: 9.0, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg" },
+      { id: 12, title: "Pulp Fiction", year: "1994", rating: 8.9, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/lyQBXzOQSuE59IsHyhrp0qIiPAz.jpg" },
+      { id: 13, title: "Parasite", year: "2019", rating: 8.5, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg" },
+      { id: 14, title: "The Matrix", year: "1999", rating: 8.7, genre: "sci-fi", poster: "https://image.tmdb.org/t/p/w500/tVxDe01Zy3kZqaZRNiXFGDICdZk.jpg" },
+      { id: 15, title: "The Lord of the Rings: The Fellowship of the Ring", year: "2001", rating: 8.8, genre: "action", poster: "https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg" },
+      { id: 16, title: "Inception", year: "2010", rating: 8.8, genre: "sci-fi", poster: "https://image.tmdb.org/t/p/w500/3Rfvhy1Nl6sSGJwyjb0QiZzZYlB.jpg" },
+      
+      // Page 3
+      { id: 17, title: "Gladiator", year: "2000", rating: 8.5, genre: "action", poster: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg" },
+      { id: 18, title: "The Lord of the Rings: The Two Towers", year: "2002", rating: 8.7, genre: "action", poster: "https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg" },
+      { id: 19, title: "The Lord of the Rings: The Return of the King", year: "2003", rating: 8.9, genre: "action", poster: "https://image.tmdb.org/t/p/w500/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg" },
+      { id: 20, title: "The Dark Knight Rises", year: "2012", rating: 8.4, genre: "action", poster: "https://image.tmdb.org/t/p/w500/2CAL2433ZeIihfX1Hb2139CX0pW.jpg" },
+      { id: 21, title: "Avengers: Infinity War", year: "2018", rating: 8.4, genre: "action", poster: "https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" },
+      { id: 22, title: "Avengers: Endgame", year: "2019", rating: 8.4, genre: "action", poster: "https://image.tmdb.org/t/p/w500/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg" },
+      { id: 23, title: "Spider-Man: No Way Home", year: "2021", rating: 8.2, genre: "action", poster: "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" },
+      { id: 24, title: "The Batman", year: "2022", rating: 7.8, genre: "action", poster: "https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg" },
+      
+      // Page 4
+      { id: 25, title: "Dune", year: "2021", rating: 8.0, genre: "sci-fi", poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" },
+      { id: 26, title: "Spider-Man: Across the Spider-Verse", year: "2023", rating: 8.6, genre: "action", poster: "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" },
+      { id: 27, title: "Oppenheimer", year: "2023", rating: 8.4, genre: "drama", poster: "https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg" },
+      { id: 28, title: "John Wick: Chapter 4", year: "2023", rating: 7.7, genre: "action", poster: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg" },
+      { id: 29, title: "The Batman", year: "2022", rating: 7.8, genre: "action", poster: "https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg" },
+      { id: 30, title: "The Dark Knight", year: "2008", rating: 9.0, genre: "action", poster: "https://image.tmdb.org/t/p/w500/iiXliCeykkzmJ0Eg9RYJ7F2CWSz.jpg" },
+      { id: 31, title: "Avengers: Endgame", year: "2019", rating: 8.4, genre: "action", poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg" },
+      { id: 32, title: "Interstellar", year: "2014", rating: 8.6, genre: "sci-fi", poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" }
+    ];
+
+    // Pagination variables
+    let currentPage = 1;
+    const moviesPerPage = 8;
+    let filteredMovies = [...movies];
+
+    // DOM elements
+    const movieGrid = document.getElementById('movieGrid');
+    const pagination = document.getElementById('pagination');
+    const prevPageBtn = document.getElementById('prevPage');
+    const nextPageBtn = document.getElementById('nextPage');
+    const searchInput = document.getElementById('searchInput');
+    const genreFilter = document.getElementById('genreFilter');
+    const yearFilter = document.getElementById('yearFilter');
+    const ratingFilter = document.getElementById('ratingFilter');
+    const sortFilter = document.getElementById('sortFilter');
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMovies();
+      setupPagination();
+      setupEventListeners();
+    });
+
+    // Render movies based on current page and filters
+    function renderMovies() {
+      movieGrid.innerHTML = '';
+      
+      const startIndex = (currentPage - 1) * moviesPerPage;
+      const endIndex = startIndex + moviesPerPage;
+      const moviesToDisplay = filteredMovies.slice(startIndex, endIndex);
+      
+      if (moviesToDisplay.length === 0) {
+        movieGrid.innerHTML = '<p class="no-results">No movies found matching your criteria.</p>';
+        return;
+      }
+      
+      moviesToDisplay.forEach(movie => {
+        const movieCard = document.createElement('div');
+        movieCard.className = 'movie-card';
+        movieCard.innerHTML = `
+          <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+          <div class="movie-info">
+            <a href="movie.html?id=${movie.id}" class="movie-title">${movie.title}</a>
+            <div class="movie-meta">
+              <span>${movie.year}</span>
+              <span class="rating">★ ${movie.rating}</span>
+            </div>
+          </div>
+        `;
+        movieGrid.appendChild(movieCard);
+      });
+    }
+
+    // Setup pagination buttons
+    function setupPagination() {
+      const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
+      const pageLinks = pagination.querySelectorAll('.page-link[data-page]');
+      
+      // Clear existing page numbers (keep prev/next buttons)
+      pageLinks.forEach(link => link.remove());
+      
+      // Add page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.href = '#';
+        pageLink.className = 'page-link';
+        pageLink.dataset.page = i;
+        pageLink.textContent = i;
+        if (i === currentPage) {
+          pageLink.classList.add('active');
+        }
+        pageLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = i;
+          renderMovies();
+          updatePagination();
+        });
+        pagination.insertBefore(pageLink, nextPageBtn);
+      }
+      
+      updatePagination();
+    }
+
+    // Update pagination state
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
+      const pageLinks = pagination.querySelectorAll('.page-link[data-page]');
+      
+      // Update active state
+      pageLinks.forEach(link => {
+        link.classList.remove('active');
+        if (parseInt(link.dataset.page) === currentPage) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Enable/disable prev/next buttons
+      prevPageBtn.classList.toggle('disabled', currentPage === 1);
+      nextPageBtn.classList.toggle('disabled', currentPage === totalPages);
+    }
+
+    // Filter movies based on search and filter criteria
+    function filterMovies() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const genre = genreFilter.value;
+      const year = yearFilter.value;
+      const minRating = parseFloat(ratingFilter.value);
+      const sortBy = sortFilter.value;
+      
+      filteredMovies = movies.filter(movie => {
+        const matchesSearch = movie.title.toLowerCase().includes(searchTerm);
+        const matchesGenre = genre === 'all' || movie.genre === genre;
+        const matchesYear = year === 'all' || movie.year === year;
+        const matchesRating = minRating === 0 || movie.rating >= minRating;
+        
+        return matchesSearch && matchesGenre && matchesYear && matchesRating;
+      });
+      
+      // Sort movies
+      switch (sortBy) {
+        case 'newest':
+          filteredMovies.sort((a, b) => b.year - a.year);
+          break;
+        case 'highest':
+          filteredMovies.sort((a, b) => b.rating - a.rating);
+          break;
+        case 'alphabetical':
+          filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        default: // popularity (default sort)
+          filteredMovies.sort((a, b) => b.rating - a.rating);
+      }
+      
+      currentPage = 1;
+      renderMovies();
+      setupPagination();
+    }
+
+    // Setup event listeners for filters and search
+    function setupEventListeners() {
+      // Pagination buttons
+      prevPageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+          currentPage--;
+          renderMovies();
+          updatePagination();
+        }
+      });
+      
+      nextPageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderMovies();
+          updatePagination();
+        }
+      });
+      
+      // Search and filter inputs
+      searchInput.addEventListener('input', filterMovies);
+      genreFilter.addEventListener('change', filterMovies);
+      yearFilter.addEventListener('change', filterMovies);
+      ratingFilter.addEventListener('change', filterMovies);
+      sortFilter.addEventListener('change', filterMovies);
+    }
+  </script>
+</body>
+</html>
