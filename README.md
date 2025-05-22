@@ -13,15 +13,25 @@ CineSwift is a simple movie streaming web application that allows users to brows
   - ⬇️ Download
 - 💾 **Download Functionality:** Download trailers, posters, or movie files directly to your device.
 - 📁 **Downloads Page (download.html):** Lists all downloadable content.
+- 🔐 **Basic Login (Optional):** Users can log in before accessing full features.
+
+---
+
+## 🔑 Login Credentials
+
+> These are the default credentials for accessing the app:
+
+- **Username:** `admin`  
+- **Password:** `1234`
 
 ---
 
 ## 🛠️ Tech Stack
 
-- HTML5
-- CSS3
-- JavaScript (Basic)
-- Responsive Design
+- HTML5  
+- CSS3  
+- JavaScript
+- Responsive Design  
 
 ---
 
