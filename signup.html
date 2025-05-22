@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - CineSwift</title>
+  <title>Sign Up - CineSwift</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -91,8 +91,8 @@
       width: 100%;
     }
     
-    /* Login Section */
-    .login-section {
+    /* Signup Section */
+    .signup-section {
       flex: 1;
       display: flex;
       justify-content: center;
@@ -102,16 +102,16 @@
                   url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
     }
     
-    .login-container {
+    .signup-container {
       background-color: var(--darker);
       padding: 40px;
       border-radius: 8px;
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
       width: 100%;
-      max-width: 450px;
+      max-width: 500px;
     }
     
-    .login-title {
+    .signup-title {
       font-size: 2rem;
       margin-bottom: 30px;
       color: var(--light);
@@ -119,7 +119,7 @@
       position: relative;
     }
     
-    .login-title::after {
+    .signup-title::after {
       content: '';
       position: absolute;
       width: 60px;
@@ -130,14 +130,20 @@
       background-color: var(--accent);
     }
     
-    .login-form {
+    .signup-form {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
     
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+    
     .form-group {
       position: relative;
+      flex: 1;
     }
     
     .form-group i {
@@ -169,7 +175,7 @@
       color: var(--gray);
     }
     
-    .login-btn {
+    .signup-btn {
       background-color: var(--accent);
       color: white;
       border: none;
@@ -182,43 +188,43 @@
       margin-top: 10px;
     }
     
-    .login-btn:hover {
+    .signup-btn:hover {
       background-color: #c40812;
       transform: translateY(-3px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
     
-    .login-links {
-      display: flex;
-      justify-content: space-between;
+    .terms-text {
+      font-size: 0.8rem;
+      color: var(--gray);
       margin-top: 20px;
-      font-size: 0.9rem;
+      text-align: center;
     }
     
-    .login-links a {
-      color: var(--gray);
+    .terms-text a {
+      color: var(--accent);
       text-decoration: none;
       transition: color 0.3s;
     }
     
-    .login-links a:hover {
-      color: var(--accent);
+    .terms-text a:hover {
+      color: #c40812;
     }
     
-    .signup-text {
+    .login-text {
       text-align: center;
       margin-top: 30px;
       color: var(--gray);
     }
     
-    .signup-text a {
+    .login-text a {
       color: var(--accent);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s;
     }
     
-    .signup-text a:hover {
+    .login-text a:hover {
       color: #c40812;
     }
     
@@ -255,8 +261,13 @@
         margin: 0 15px 10px;
       }
       
-      .login-container {
+      .signup-container {
         padding: 30px 20px;
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 20px;
       }
     }
   </style>
@@ -264,28 +275,59 @@
 <body>
   <header>
     <a href="index.html" class="logo"><i class="fas fa-film"></i>Cine<span>Swift</span></a>
-    
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="browse.html">Browse</a>
+      <a href="categories.html">Categories</a>
+      <a href="login.html">Login</a>
+      <a href="register.html" class="active">Register</a>
+    </nav>
   </header>
 
-  <section class="login-section">
-    <div class="login-container">
-      <h2 class="login-title">Sign In</h2>
-      <form id="loginForm" class="login-form">
+  <section class="signup-section">
+    <div class="signup-container">
+      <h2 class="signup-title">Create Account</h2>
+      <form id="signupForm" class="signup-form">
+        <div class="form-row">
+          <div class="form-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="firstName" class="form-control" placeholder="First Name" required />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="lastName" class="form-control" placeholder="Last Name" required />
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" class="form-control" placeholder="Email" required />
+        </div>
+        
         <div class="form-group">
           <i class="fas fa-user"></i>
           <input type="text" id="username" class="form-control" placeholder="Username" required />
         </div>
-        <div class="form-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="password" class="form-control" placeholder="Password" required />
+        
+        <div class="form-row">
+          <div class="form-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" class="form-control" placeholder="Password" required />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required />
+          </div>
         </div>
-        <button type="submit" class="login-btn">Sign In</button>
-        <div class="login-links">
-          <a href="#">Forgot password?</a>
-          <a href="#">Need help?</a>
-        </div>
+        
+        <button type="submit" class="signup-btn">Sign Up</button>
+        
+        <p class="terms-text">
+          By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        </p>
       </form>
-      <p class="signup-text">New to CineSwift? <a href="signup.html">Sign up now</a>.</p>
+      
+      <p class="login-text">Already have an account? <a href="login.html">Sign in now</a>.</p>
     </div>
   </section>
 
@@ -296,22 +338,46 @@
   </footer>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
+      // Get form values
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
       
       // Basic validation
-      if (username.trim() === '' || password.trim() === '') {
+      if (firstName.trim() === '' || lastName.trim() === '' || 
+          email.trim() === '' || username.trim() === '' || 
+          password.trim() === '' || confirmPassword.trim() === '') {
         alert('Please fill in all fields');
         return;
       }
       
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+      
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters');
+        return;
+      }
+      
       // In a real application, you would send this to your server
-      console.log('Login attempt with:', { username, password });
+      console.log('Signup attempt with:', { 
+        firstName, 
+        lastName, 
+        email, 
+        username, 
+        password 
+      });
       
       // For demo purposes, we'll just redirect to the home page
+      alert('Account created successfully!');
       window.location.href = 'index.html';
     });
   </script>
